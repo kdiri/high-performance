@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "high-performance"
+version = "0.1.0"
+description = ""
+authors = ["Kemal Diri <kemaldiri@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pytest = "^6.2.5"
+pytest-benchmark = "^3.4.1"
+patricia-trie = "^10"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
