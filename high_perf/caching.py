@@ -15,6 +15,7 @@ def time_decorator(fn):
         end = perf_counter()
         print(f"Time elapsed: {end - start}")
         return result
+
     return inner
 
 
@@ -44,7 +45,7 @@ class FactClass:
         if num not in self.cache:
             product: int = 1
             for i in range(num):
-                product = product * (i+1)
+                product = product * (i + 1)
             self.cache[num] = product
             return self.cache[num]
         return self.cache[num]
@@ -58,6 +59,7 @@ def process_basic_caches():
     print("| ------ With cache")
     for i in range(5):
         cached_class(100000)
+
 
 def fibonacci_simple(num):
     if num < 1:
@@ -106,5 +108,5 @@ def process():
     process_fibo_mem_cache()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     process()

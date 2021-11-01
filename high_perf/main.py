@@ -6,7 +6,6 @@ import timeit
 from functools import lru_cache
 
 
-
 def counter_defaultdict(items: list):
     dd = defaultdict(int)
     for item in items:
@@ -17,6 +16,7 @@ def counter_defaultdict(items: list):
 def counter_strike(items: list):
     dd = Counter(items)
     print(dd)
+
 
 def process_counters():
     items: list = [1, 2, 3, 4]
@@ -41,22 +41,24 @@ def inverted_index(word: str, docs: list):
             else:
                 index[ww].add(i)
     results = index[word]
-    print(index['cat'].intersection(results))
+    print(index["cat"].intersection(results))
     result_doc = [docs[i] for i in results]
     print(result_doc)
 
 
 def process_words():
-    docs = ["the cat is under the table",
-            "the dog is under the table",
-            "cats and dogs smell roses",
-            "Carla eats an apple"]
+    docs = [
+        "the cat is under the table",
+        "the dog is under the table",
+        "cats and dogs smell roses",
+        "Carla eats an apple",
+    ]
     search_word("table", docs)
     inverted_index("table", docs)
 
 
 def random_string(lentgh: int) -> str:
-    return ''.join(choice(ascii_uppercase) for i in range(lentgh))
+    return "".join(choice(ascii_uppercase) for i in range(lentgh))
 
 
 def process_strings():
@@ -68,7 +70,7 @@ def process_strings_optimized():
     strings = [random_string(32) for i in range(10000)]
     strings_dict = {s: 0 for s in strings}
     strings_trie = trie(**strings_dict)
-    matches = list(strings_trie.iter('AA'))
+    matches = list(strings_trie.iter("AA"))
 
 
 def timeit_process_strings():
@@ -83,7 +85,7 @@ def fibonacci(n):
     if n < 1:
         return 1
     else:
-        return fibonacci(n-1) + fibonacci(n-2)
+        return fibonacci(n - 1) + fibonacci(n - 2)
 
 
 def fibonacci_cache():
@@ -91,8 +93,9 @@ def fibonacci_cache():
     print(timeit.timeit(stmt=fibonacci_memoized(20), number=100))
     print(timeit.timeit(stmt=fibonacci(20), number=100))
 
-if __name__ == '__main__':
-    #process_counters()
-    #process_words()
-    #timeit_process_strings()
+
+if __name__ == "__main__":
+    # process_counters()
+    # process_words()
+    # timeit_process_strings()
     fibonacci_cache()
