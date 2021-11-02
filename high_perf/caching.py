@@ -1,5 +1,16 @@
 """
 Basic caching and also lru_cache examples
+
+Execution times to get fibonacci number of 30
+
+| ------ No cache
+Time elapsed: 3.203935502
+| ------ With lru cache
+Time elapsed: 2.995000000005632e-05
+| ------ With memory cache
+Time elapsed: 0.012280038999999299
+
+
 """
 from time import perf_counter
 from functools import lru_cache
@@ -85,21 +96,21 @@ def fibonacci_mem_cache(num):
 def process_fibo_simple():
     print("| ------ No cache")
     for i in range(5):
-        fibonacci_simple(20)
+        fibonacci_simple(30)
 
 
 @time_decorator
 def process_fibo_cache():
-    print("| ------ With cache")
+    print("| ------ With lru cache")
     for i in range(5):
-        fibonacci_cache(20)
+        fibonacci_cache(30)
 
 
 @time_decorator
 def process_fibo_mem_cache():
     print("| ------ With memory cache")
     for i in range(5):
-        fibonacci_mem_cache(50)
+        fibonacci_mem_cache(30)
 
 
 def process():
