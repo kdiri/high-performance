@@ -1,5 +1,6 @@
 import time
 import threading
+from concurrent.futures import Future
 
 
 def network_request(number) -> dict:
@@ -51,6 +52,34 @@ def fetch_square_async(number):
     network_request_async(number, on_done)
 
 
+def network_request_async_future(number):
+    future = Future()
+    result = {"success": True, "result": number ** 2}
+    timer = threading.Timer(1.0, lambda: future.set_result(result))
+    timer.start()
+    return future
+
+
+def fetch_square_future(number):
+    fut = network_request_async_future(number)
+
+    def on_done_future(future):
+        response = future.result()
+        if response["success"]:
+            print(f"Response is {response['result']}")
+
+    fut.add_done_callback(on_done_future)
+
+
+def process_future():
+    """
+    Response is 4
+    Response is 9
+    """
+    fetch_square_future(2)
+    fetch_square_future(3)
+
+
 def process():
     """
     Expected print order (depending on interruption at OS level):
@@ -79,4 +108,4 @@ def process():
 
 
 if __name__ == "__main__":
-    process()
+    process_future()
