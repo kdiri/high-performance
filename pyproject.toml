@@ -12,6 +12,7 @@ patricia-trie = "^10"
 joblib = "^1.1.0"
 Cython = "^0.29.24"
 numba = "0.54.1"
+attrs = "21.2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^21.9b0"
