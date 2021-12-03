@@ -1,6 +1,7 @@
 """
    :synopsis: Asyncio example from the book
 """
+import random
 import time
 from typing import Generator
 import asyncio
@@ -46,7 +47,9 @@ async def wait_and_print(msg):
 
 
 async def network_request(number):
-    await asyncio.sleep(10.0)
+    if number == 2:
+        await asyncio.sleep(1)
+    await asyncio.sleep(random.random())
     return {"success": True, "result": number ** 2}
 
 
@@ -60,11 +63,20 @@ if __name__ == "__main__":
     """
     loop.run_until_complete(hello())
     loop.run_until_complete(wait_and_print("Hello"))
+    
+    Running tasks using run_until_complete is fine for testing and debugging. 
+    However, our program will be started with loop.run_forever most of the times, 
+    and we will need to submit our tasks while the loop is already running.
     """
     loop = asyncio.get_event_loop()
     try:
         fut = loop.run_in_executor(executor, wait_and_return, "hello asyncio executor")
         loop.run_until_complete(fut)
+        """
+        asyncio provides the ensure_future function, which schedules coroutines 
+        (as well as futures) for execution. ensure_future can be used by simply
+         passing the coroutine we want to schedule.
+        """
         asyncio.ensure_future(fetch_square(2))
         asyncio.ensure_future(fetch_square(3))
         asyncio.ensure_future(fetch_square(4))
