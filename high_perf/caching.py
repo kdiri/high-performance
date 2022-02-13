@@ -12,7 +12,7 @@ Time elapsed: 0.012280038999999299
 
 
 """
-from time import perf_counter
+from time import perf_counter, time
 from functools import lru_cache
 from joblib import Memory
 
@@ -49,7 +49,7 @@ class FactClass:
     def __init__(self):
         self.cache: dict = {}
 
-    @time_decorator
+    #@time_decorator
     def __call__(self, num):
         if num < 0:
             raise ValueError
@@ -57,6 +57,24 @@ class FactClass:
             product: int = 1
             for i in range(num):
                 product = product * (i + 1)
+            self.cache[num] = product
+            return self.cache[num]
+        return self.cache[num]
+
+
+class FactClass2:
+    def __init__(self):
+        self.cache: dict = {}
+
+    def __call__(self, num):
+        if num < 0:
+            raise ValueError
+        if num not in self.cache:
+            product: int = 1
+            for i in range(num):
+                if i not in self.cache:
+                    self.cache[i] = product
+                    product = product * (i + 1)
             self.cache[num] = product
             return self.cache[num]
         return self.cache[num]
@@ -70,6 +88,21 @@ def process_basic_caches():
     print("| ------ With cache")
     for i in range(5):
         cached_class(100000)
+
+
+def process_fact_classes():
+    cached_class = FactClass()
+    cached_class2 = FactClass2()
+    print("| ------ With V1")
+    start = time()
+    for i in range(100000, 1, -1):
+       cached_class(i)
+    print(f"Time elapsed for V1: {time() - start}")
+    print("| ------ With V2")
+    start = time()
+    for i in range(100000, 1, -1):
+        cached_class2(i)
+    print(f"Time elapsed for V2: {time() - start}")
 
 
 def fibonacci_simple(num):
@@ -116,7 +149,9 @@ def process_fibo_mem_cache():
 def process():
     process_fibo_simple()
     process_fibo_cache()
-    process_fibo_mem_cache()
+    #process_fibo_mem_cache()
+    #process_basic_caches()
+    #process_fact_classes()
 
 
 if __name__ == "__main__":
